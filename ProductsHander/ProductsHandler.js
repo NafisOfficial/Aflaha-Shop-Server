@@ -1,33 +1,53 @@
 const express = require("express");
 const { default: mongoose } = require("mongoose");
 
-const products = express.Router();
-const productsCollection = new mongoose.model("Products",{});
+const Products = express.Router();
+const productSchema = new mongoose.Schema({
+    'name': String,
+    'quantity': String,
+    'price': Number,
+    'manufacturer_date': String,
+    'exp_date': String,
+    'reviews': Array,
+    'services' : Object,
+    'img_url' : Array
+});
+const productsCollection = new mongoose.model("Products",productSchema);
 
 // get all the products
-products.get('/', async (req, res)=>{
-    productsCollection.find()
+Products.get('/', async (req, res)=>{
+    try{
+        const data = await productsCollection.find()
+        res.json(data);
+    }catch(error){
+        console.log(error)
+    }
 });
 
 //get a products by id
-products.get('/', async (req, res)=>{
-
+Products.get('/:id', async (req, res)=>{
+    try{
+        const singleData = await productsCollection.find({_id: req.params.id})
+        res.json(singleData);
+    }catch(error){
+        console.log(error);
+    }
 });
 
 //add a product
-products.post('/add-product', async (req, res)=>{
+Products.post('/add-product', async (req, res)=>{
 
 });
 
 //update a product by id
-products.patch('/update', async (req, res)=>{
+Products.patch('/update', async (req, res)=>{
 
 });
 
 //delete a product by id
-products.delete('/delete', async (req, res)=>{
+Products.delete('/delete', async (req, res)=>{
 
 });
 
 
-module.exports = products;
+module.exports = Products;
