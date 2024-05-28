@@ -12,11 +12,12 @@ app.use(express.json());
 
 //GET FROM ENV
 const port = process.env.PORT || 5000;
-const mongodb_url = process.env.MONGO_URL
+const mongo_user = process.env.MONGODB_USER
+const mongo_password = process.env.MONGODB_PASSWORD
 
 
 //database connection with mongoose
-mongoose.connect(mongodb_url)
+mongoose.connect(`mongodb+srv://${mongo_user}:${mongo_password}@sell-services.v7pbq3k.mongodb.net/?retryWrites=true&w=majority&appName=Sell-Services`)
 .then(()=>{
     console.log("Connected");
 })
